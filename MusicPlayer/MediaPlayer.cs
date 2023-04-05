@@ -68,15 +68,19 @@ namespace MusicPlayer
 
         private void MusicLbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MediaPlayerWin.URL = paths[MusicLbox.SelectedIndex];
-            MediaPlayerWin.Ctlcontrols.play();
-            StatusLabel.Text = "Playing...";
-            try
+            if (MusicLbox.SelectedIndex >= 0 && MusicLbox.SelectedIndex < paths.Length)
             {
-                var file = TagLib.File.Create(paths[MusicLbox.SelectedIndex]);
-                var bin = (byte[])(file.Tag.Pictures[0].Data.Data);
-                MusicPicture.Image = Image.FromStream(new MemoryStream(bin));
-            } catch { }
+                MediaPlayerWin.URL = paths[MusicLbox.SelectedIndex];
+                MediaPlayerWin.Ctlcontrols.play();
+                StatusLabel.Text = "Playing...";
+                try
+                {
+                    var file = TagLib.File.Create(paths[MusicLbox.SelectedIndex]);
+                    var bin = (byte[])(file.Tag.Pictures[0].Data.Data);
+                    MusicPicture.Image = Image.FromStream(new MemoryStream(bin));
+                }
+                catch { }
+            }
         }
 
         private void ClearBtn_Click(object sender, EventArgs e)
